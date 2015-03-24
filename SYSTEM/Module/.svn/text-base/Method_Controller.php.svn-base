@@ -1,0 +1,30 @@
+<?PHP
+       Function Method_Controller()
+        {
+            Try
+            {
+                If(IsSet($_SESSION['Procedures']))
+                {
+                    $Procedures = $_SESSION['Procedures'];
+                    For($I=1;$I<Count($Procedures);$I++)
+                    {
+                            // Unserialize the procedure data //
+                            $Method = \System\Library\Serialization\__Main::UnSerialize($Procedures[$I]['Method']);
+                            $Function = \System\Library\Serialization\__Main::UnSerialize($Procedures[$I]['Function']);
+                            $Parameters = \System\Library\Serialization\__Main::UnSerialize($Procedures[$I]['Parameters']);
+                            // Unserialize the procedure data //  
+                                 
+                            $Method::$Function($Parameters);
+                            //$Procedure[$I]['Method']::$Procedure[$I]['Function']();   
+                           // \System\Library\Session\__Interface::Append_To_Parameter(Array(Procedures,Array($I),'Result'),"Completed");
+                      // }
+                    }                
+                }
+                
+            }
+            Catch(\Exception $Exception)
+            {
+                
+            }
+        } 
+?>

@@ -1,0 +1,12 @@
+<?PHP        
+    define('NS_SEPERATOR' , "\\");   
+    define('Authentication_Level',0);
+    define(Title, "SYSTEM | Framework");
+
+// File System Variables //
+    define(Root_Directory,__DIR__);
+    define(Template_Directory,BASE_DIRECTORY."/Template");
+    define(CSS_Directory, "/System/Template/CSS/");
+    Define('BASE_URL',)
+    Define('Database_XML',Root_Directory."/System/Module/Quotes/Repositories/localhost.localdomain.xml");      
+?>

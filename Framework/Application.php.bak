@@ -1,0 +1,51 @@
+<?php
+
+	Namespace Framework
+	{
+		Class Application Extends \Framework\Model
+		{
+			Protected $_Element = "Application";
+			Public $Configuration;
+			Public $Diagnostics;
+			
+			Protected Function __Construct()
+			{
+				// $Bootstrapper = Module\Bootstrapper::Initialize();\
+				// $Configuration = $this->Load_Configuration();
+				$this->Load_Diagnostics();
+				$this->Diagnostics->Log_Append("Application initializing.");
+				
+				$this
+					->Load_Configuration()
+					->Load_Bootstrapper();
+
+					//Var_Dump(Static::$Diagnostics->Retrieve_Log());
+				$this->Diagnostics->Log_Append("Application sucessfully initialized.");
+			}
+			Protected Function Load_Configuration($Configuration = NULL)
+			{
+				If(IsSet($Configuration));
+				ElseIf($Configuration = Static::Configuration)
+				{
+				
+				}
+				Else
+				{
+					Print "Unable to load configuration.";
+				}
+				$this->Configuration = \Framework\Module\Configuration::Load_Configuration($this::Configuration);
+				Return $this;
+			}
+			Protected Function Load_Diagnostics()
+			{
+				$this->Diagnostics = \Framework\Module\Diagnostics::Initialize()->Generate();
+				Return $this;
+			}
+			Protected Function Load_Bootstrapper()
+			{
+				\Framework\Module\Bootstrapper::Initialize()->Generate();
+				Return $this;
+			}
+		
+		}
+	}

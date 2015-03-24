@@ -1,0 +1,156 @@
+<?
+    NameSpace System\Security\Authentication
+    {
+        Class __Main
+        {
+            Var $Class = __CLASS__;
+            
+            Public Function Generate_Object()
+            {
+                Return New $this->Class();
+            }
+            Public Function Initialize()
+            {
+                Try
+                {  
+                    If(\System\Security\Authentication\Audit\__Interface::Authentication_Status());
+                    Else
+                    {     
+                        $Object->Debug[]    =   "We are not authenticated";
+                        $SubRoutine =   \System\Security\Authentication\__Main::Create_Login_Interface();
+                        If($SubRoutine->Result)
+                        {
+                            /**
+                            * @todo Add a better user interface subroutine which can acess a routine variable
+                            * thus swithching the requested one.
+                            */
+                            Define(USER_INTERFACE,  $SubRoutine->Data);
+                        }
+                        Else
+                        {  
+                            $Object  =   New \Exception;
+                            $Object->Debug[]    =   "Unable to create the login interface.";
+                            $Object->SubRoutine =   $SubRoutine;
+                            Throw $Exception;
+                        }
+                    }
+                    // $Authentication->Result = TRUE;        
+                }
+                Catch(\Exception $SubRoutine)
+                {     Print "Catching";   
+                    $Object = New \Exception;
+                    $Object->SubRoutine  =   $SubRoutine;
+                    $Object->Result =   FALSE; 
+                    Throw $Object;
+                }
+                Return $Object; 
+            }
+            Public Function Create_Login_Interface()
+            {
+                Try
+                {If(TRUE)
+                    {
+                        // Serialize our login processing destination//Bundle into Parameters
+                        $Method = "\System\Security\Authentication\Audit\__Main";
+                        $Serialized_Method  =   \System\Library\Serialization\__Main::Serialize($Method);
+                        $Function= 'Process';
+                        $Serialized_Function  =   \System\Library\Serialization\__Main::Serialize($Function);
+                        $Parameters =   Array('$_REQUEST["Method"]','$_REQUEST["Function"]');
+                        $Serialized_Parameters  =   \System\Library\Serialization\__Main::Serialize($Parameters);
+                        // Serialize Parameters
+                        
+                        // Append to session
+                        \System\Module\Session\__API::Set_Parameter('Procedures',Array('Method' => $Serialized_Method,'Function' => $Serialized_Function,'Parameters' => $Serialized_Parameters));       
+                        
+                        // \System\Module\Form\__Interface::Generate_Form()
+                        If($SubRoutine  =   \System\Module\Form\__Interface::Generate_Form_XHTML(\System\Module\Authentication\User_Interface\Forms\XML\__Interface::Retrieve_XHTML('/var/www/html/System/Module/Authentication/User_Interface/Forms/XML/Login.xhtml')))
+                        {
+                            $Object->Data =   $SubRoutine;
+                            $Object->Result =   TRUE; 
+                        }
+                        Else
+                        {
+                            Throw New \Exception ($SubRoutine->Exception);
+                        }
+                        /*\System\Library\Session\__Interface::Set_Parameter('Authenticated',TRUE);*/
+                    }
+                    
+                }
+                Catch(\Exception $Exception)
+                {
+                    $Object->Result =   FALSE;
+                    $Object->Exception  =   $Exception;
+                }
+                
+                Return $Object;   
+            }
+            Public Function Logout()
+            {
+                $Result = NULL;
+                $Result[] = \System\Library\Session\__Interface::Destroy();
+                
+                Return $Result;
+            }
+            Public Function Login($Input_Object)
+            {
+                # Set the appropriate variables
+                $UserName = $Input_Object->UserName;
+                $Password = $Input_Object->Password;
+
+                Try
+                {
+                    # Authenticate via appropriate interface 
+                    $SubRoutine = \System\Security\Authentication\Interfaces\MySQL::Authenticate($UserName,$Password);
+                    # Discern results  
+                    If($SubRoutine->Result)
+                    {
+                        # Update the session authentication variable.
+                        self::Update_Authentication_Status(/* Insecure */$SubRoutine->Result);
+                        $Object->Result =   TRUE;
+                        $Object->SubRoutines[] =   $SubRoutine;
+                    }
+                    Else
+                    {   
+                        Throw New \Exception ($SubRoutine->Exception);
+                    }
+                    }   
+                Catch(\Exception $Exception)
+                {
+                    $Object->Result = FALSE;
+                    $Object->Error = $Exception;
+                    Throw $Exception;    
+                }
+                Return $Object;
+            }                                       
+            Protected Function Update_Authentication_Status($Status)
+            {
+                Try
+                {
+                    If($_SESSION['Authentication_Status'] = $Status);
+                    Else
+                    {
+                        Throw New \Exception("Unable to update authentication status");
+                    }
+                    $Object->Result =   TRUE;
+                }
+                Catch(\Exception $Exception)
+                {
+                    $Object->Result =   FALSE;
+                    $Object->Error  =   $Exception;
+                    Throw $Exception;                                            
+                }
+                Return $Object;
+            }
+
+        }
+        Class __API
+        {
+            Public Function Login()
+            {
+                
+                Return TRUE;
+            }
+        }
+    }
+  
+?>

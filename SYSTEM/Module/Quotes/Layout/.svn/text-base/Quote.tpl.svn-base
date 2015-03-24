@@ -1,0 +1,7 @@
+
+<Link Rel="Stylesheet" HREF="/System/Module/Quotes/Layout/Quote.css">
+<DIV Class="Box">    
+    <DIV ID="<?PHP Echo $this->Quote->Object_ID;?>" Class="Quote">
+        <DIV Name="Quote"><?PHP Echo $this->Quote->Quote?></DIV><DIV Name="Author">- <?PHP Echo $this->Quote->Author?></DIV>
+    </DIV>
+</DIV>

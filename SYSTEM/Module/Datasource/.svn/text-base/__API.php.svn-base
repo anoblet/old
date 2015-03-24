@@ -1,0 +1,86 @@
+<?PHP
+    Namespace System\Module\Datasource
+    {
+        Class __API
+        {                                                    
+            Protected $Type;
+                        
+            Public Function Instantiate()
+            {
+                $Object = __CLASS__;
+                Return New $Object;
+            }                     
+            Public Function Generate_Object($Type)
+            {
+                Switch($Type)
+                {       
+                    Case "Database\MySQL":
+                    {
+                        $Class =   "\System\Module\Datasource" . NS_SEPERATOR . $Type . NS_SEPERATOR . "__API";
+                        $Object = New $Class;
+                    }
+                }
+                    
+                Return $Object;
+            }
+            
+            Public Function Generate_Connection($Datasource)
+            {
+                $this->Type =   $Datasource->Type;       
+                Switch($Datasource->Type)
+                {       
+                    Case "MySQL":
+                    {
+                        $Connection =   \System\Library\DataSource\Database\MySQL\__Interface::Generate_Connection($Datasource);
+                    }
+                }
+                Return $Connection;      
+            }
+
+            
+
+            Public Function Retrieve($Parameters,$Datasource)
+            {          
+                Switch($Datasource->Type)
+                {       
+                    Case "MySQL":
+                    {
+                       $Connection =   \System\Library\DataSource\Database\MySQL\__Interface::Generate_Connection($Datasource);
+                        If($Data   =   \System\Library\DataSource\Database\MySQL\__Interface::Retrieve($Parameters,$Connection))
+                        {
+                            $Result =   $Data;
+                        };
+                    }
+                }
+                Return $Result;
+            }
+            Public Function Create($Datasource,$Parameters,$Data)
+            {
+                Switch($Datasource->Type)
+                {       
+                    Case "MySQL":
+                    {          
+                        If($Data   =   \System\Library\DataSource\Database\MySQL\__Interface::Create($Datasource,$Parameters,$Data))
+                        {   
+                            $Result =   $Data;
+                        };
+                    }
+                }
+                Return $Result;
+            }
+            Public Function Abstraction_Layer($Input_Object,$Map)
+            {
+                /* For($I=0;$I<Count($Map);$I++)
+                {} */
+
+                    ForEach($Map as $Key => $Value)
+                    {        
+                        $Object->$Key = \System\Library\XML\__API::Retrieve_Element_Value_XPath($Input_Object, $Value);
+                    }       
+                    
+                              
+                Return $Object;
+            }
+        }
+    }
+?>

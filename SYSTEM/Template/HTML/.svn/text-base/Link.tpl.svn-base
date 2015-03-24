@@ -1,0 +1,4 @@
+<DIV ID="" Class="Link">
+  <A HREF="<?PHP=$Object->Link;?>"><?PHP=$Object->Text;?></A>
+</DIV>
+

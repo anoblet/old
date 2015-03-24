@@ -1,0 +1,32 @@
+<?php
+	echo $this->borderContainer(
+    	'Header',
+
+			$this->contentPane
+			(
+		    	'Status_Bar',
+		    	$this->render("Status_Bar.phtml"),
+				array
+				(
+					'region' => 'top',
+					'style' => 'border: 0; top: 0px;left:0px;right:0px;'
+				)
+			).
+			$this->contentPane
+			(
+		    	'Logo',
+		    	$this->render("Header/Logo.phtml"),
+				array
+				(
+					'region' => 'bottom',
+					'style' => 'border: 0;'
+				)
+			),
+
+
+			array
+			(
+				'region' => 'top',
+				/*'splitter' => 'true',*/
+				'style' => 'border: 0; height:10%')
+			);

@@ -1,0 +1,44 @@
+<?PHP
+    Namespace System\Module\Quotes
+    {
+        Class __Methods
+        {
+            Function List_Authors($Source)
+            {
+                /**
+                * @Internal
+                * Fix Parameter Definitions
+                */
+                $Datasource =   \System\Module\Datasource\__API::Generate_Object('Database\MySQL');   
+                $Datasource->Configuration  =   \System\Library\XML\__Interface::Convert_to_Object('System/Module/Quotes/Repositories/localhost.localdomain.xml');                                                                                                                                                                                              +
+
+                // Generate the connection 
+                $Datasource->Connection =   $Datasource->Generate_Connection($Datasource->Configuration); 
+                // Generate the Query
+                $Parameters->Database    =   "SYSTEM";
+                $Parameters->Table      =   "Quotes";
+                $Parameters->Fields     =   Array("Author");
+                $Parameters->Distinct   =   TRUE;
+                $Parameters->Order_By   =   'Author'; 
+                
+                # Retrieve the Data Resource
+       
+                $SubRoutine =   $Datasource::Retrieve($Datasource->Connection,$Parameters);
+                If($SubRoutine->Result)
+                {
+                    $Record_Count   =   $SubRoutine->Record_Count;
+                    $Resource = $SubRoutine->Data;
+                }
+                For($I=0; $I < $Record_Count;$I++)
+                {
+                    $SubRoutine =   $Datasource->Retrieve_Record($Resource,$I);
+                    If($SubRoutine->Result)
+                    {
+                        $Authors[] = $SubRoutine->Data;
+                    }     
+                }
+                Return $Authors;
+            }
+        }
+    }
+?>

@@ -1,0 +1,12 @@
+<?PHP
+    Namespace Quotes
+    {
+        Class Datasource
+        {
+            Function Create_Configuration Object
+            {
+                
+            }
+        }
+    }
+?>

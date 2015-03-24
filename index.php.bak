@@ -1,0 +1,52 @@
+<?PHP
+/*
+ * @todo Rewind (Injection Point)
+ */
+
+// Define path to application directory
+/*
+defined('APPLICATION_PATH')
+|| define('APPLICATION_PATH', realpath(dirname(__FILE__) . ''));
+
+// Define application environment
+defined('APPLICATION_ENV')
+|| define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
+
+// Ensure library/ is on include_path
+set_include_path(implode(PATH_SEPARATOR, array(
+realpath(APPLICATION_PATH . '/Library'),
+get_include_path(),
+)));
+
+/** Zend_Application 
+
+require_once 'Zend/Application.php';
+
+// Create application, bootstrap, and run
+$Application = new Zend_Application(
+APPLICATION_ENV,
+APPLICATION_PATH . '/Configuration.xml'
+);
+$Application->bootstrap()
+->run();
+Die();*/
+// File System Variables //
+Define('BASE_DIRECTORY',__DIR__);
+Define('SYSTEM_DIRECTORY',BASE_DIRECTORY . '/SYSTEM');
+Define('NS_SEPERATOR','\\');
+Define('SYSTEM_DEFAULT_DATASOURCE', SYSTEM_DIRECTORY . '/Configuration/Default_Datasource_Configuration.xml');
+// File System Variables //
+// SYSTEM File Include //
+Set_Include_Path
+(
+BASE_DIRECTORY . DIRECTORY_SEPARATOR . "Application" . DIRECTORY_SEPARATOR . PATH_SEPARATOR .
+BASE_DIRECTORY . DIRECTORY_SEPARATOR . "Library" . DIRECTORY_SEPARATOR . PATH_SEPARATOR .
+BASE_DIRECTORY . DIRECTORY_SEPARATOR . "Framework" . DIRECTORY_SEPARATOR . PATH_SEPARATOR .
+BASE_DIRECTORY . DIRECTORY_SEPARATOR . "SYSTEM/Library/PEAR/" . PATH_SEPARATOR .
+Get_Include_Path()
+);
+// SYSTEM Initialization //
+Require_Once(BASE_DIRECTORY . DIRECTORY_SEPARATOR . "SYSTEM/Library/PEAR/XML/Serializer.php");
+Require(BASE_DIRECTORY . DIRECTORY_SEPARATOR . "SYSTEM/SYSTEM.php");
+print TheFreeIntellectual::Initialize();
+?>

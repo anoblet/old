@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+<production>
+<phpSettings>
+<display_startup_errors>0</display_startup_errors>
+<display_errors>0</display_errors>
+<date.timezone>UTC</date.timezone>
+</phpSettings>
+<includePath><zf:const zf:name="APPLICATION_PATH" />/../library</includePath>
+<bootstrap>
+<path><zf:const zf:name="APPLICATION_PATH" />/Bootstrap.php</path>
+<class>Bootstrap</class>
+</bootstrap>
+<resources>
+<modules>
+<!-- Placeholder to ensure an array is created -->
+<placeholder />
+</modules>
+<db>
+<adapter>Pdo_Pgsql</adapter>
+<params>
+<host>localhost</host>
+<username>test</username>
+<password>blah</password>
+<dbname>testdb</dbname>
+<port>5432</port>
+</params>
+<isDefaultTableAdapter>true</isDefaultTableAdapter>
+</db>
+<session>
+<save_path><zf:const zf:name="APPLICATION_PATH" />/../data/sessions</save_path>
+<use_only_cookies>true</use_only_cookies>
+<remember_me_seconds>864000</remember_me_seconds>
+<saveHandler>
+<class>Zend_Session_SaveHandler_DbTable</class>
+<options>
+<name>session</name>
+<primary>
+<session_id>session_id</session_id>
+<save_path>save_path</save_path>
+<name>name</name>
+</primary>
+<primaryAssignment>
+<primaryAssignment.0>sessionId</primaryAssignment.0>
+<primaryAssignment.1>sessionSavePath</primaryAssignment.1>
+<primaryAssignment.2>sessionName</primaryAssignment.2>	
+</primaryAssignment>
+<modifiedColumn>modified</modifiedColumn>
+<dataColumn>session_data</dataColumn>
+<lifetimeColumn>lifetime</lifetimeColumn>
+</options>
+</saveHandler>
+</session>
+<frontController>
+<moduleDirectory><zf:const zf:name="APPLICATION_PATH" />/modules</moduleDirectory>
+<defaultControllerName>index</defaultControllerName>
+<defaultAction>index</defaultAction>
+<defaultModule>default</defaultModule>
+<plugins>
+<auth>My_Controller_Plugin_Auth</auth>
+</plugins>
+</frontController>	
+</resources>
+
+<autoloaderNamespaces>
+<autoloaderNamespaces.0>My_</autoloaderNamespaces.0>
+</autoloaderNamespaces>
+</production>
+</config>

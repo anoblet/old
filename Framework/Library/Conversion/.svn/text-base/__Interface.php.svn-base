@@ -1,0 +1,60 @@
+<?
+    NameSpace System\Library\Conversion
+    {
+        Class Functionr
+        {
+            Public Function Convert($Source,$Target,$String)
+            {
+                // Retrieve Delimiters for specific formats.
+                Switch($Source)
+                {
+                    Case "Array":
+                    {
+                        
+                    }
+                }
+
+                $Source_Delimiter = \System\Library\Conversion\__Formats::$Source;
+                $Target_Delimiter = \System\Library\Conversion\__Formats::$Target;
+                
+                $Result = str_replace($Source_Delimiter,$Target_Delimiter,$String);
+                
+                Return $Result;
+            }
+
+            Public Function Object_To_Array($Object)
+            {
+                $Array  =   get_object_vars($Object);
+                Return $Array;
+            }
+            Public Function Array_To_Object(Array $Array)
+            {
+                Try
+                {
+                    ForEach ($Array as $Key  => $Value)
+                    {
+                        $Object->{$Key} = $Value;
+                    }
+                    $Result =   $Object;
+                }
+                Catch (\Exception $Exception)
+                {
+                       $Result  =   $Exception;
+                }   
+                Return $Result;
+            }
+        }
+        
+        Class __Formats
+        {
+             
+            Static Public Function __Array($Array)
+            {
+                $Delimiter = ",";
+                
+                Return $Delimiter;
+            }
+            
+        }
+    }
+?>

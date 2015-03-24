@@ -1,0 +1,61 @@
+<?PHP
+Namespace System\Module\Datasource\Database\MySQL
+{    
+    Class __Format
+    {
+            Public Function Field(Array $Fields)
+            {          
+                $String =   NULL;
+                $Fields_Count    =   Count($Fields);
+                $Comma_Count   =   $Fields_Count-1;
+                For($I=0;$I < $Fields_Count; $I++)
+                {
+                    $String .=  "{$Fields[$I]}";
+                    If($I < $Comma_Count)
+                    {
+                        $String .=  ", ";    
+                    } 
+                }    
+            Return $String;
+            }
+            Public Function Value($Values)
+            {          
+                $String =   NULL;
+                $Values_Count    =   Count($Values);
+                $Comma_Count   =   $Values_Count-1;
+                For($I=0;$I < $Values_Count; $I++)
+                {
+                    $String .=  "'{$Values[$I]}'";
+                    
+                    If($I < $Comma_Count)
+                    {
+                        $String .=  ", ";    
+                    } 
+                }    
+            Return $String;
+            }
+            Public Function Filters(Array $Filters)
+            {
+                // $Number_Of_Filters = Count($Filters)
+                $String  = NULL;
+                $Count = Count($Filters);
+                $Current_Filter = 1; 
+                ForEach($Filters as $Field => $Value)
+                {   
+                    $String .=  "{$Field}='{$Value}'";
+                    If($Current_Filter < $Count)
+                    {
+                        $String .=  " AND "; 
+                    }
+                    Else
+                    {
+                        
+                    }
+                    $Current_Filter++;
+                }
+                Return $String;
+            }
+            
+        }
+}
+?>

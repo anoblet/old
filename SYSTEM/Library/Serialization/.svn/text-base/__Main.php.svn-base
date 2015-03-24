@@ -1,0 +1,25 @@
+<?
+    NameSpace System\Library\Serialization
+    {
+        Class __Main
+        {
+            Public Function Serialize($Object)
+            {
+                $Serialized_String = serialize($Object);
+                Return $Serialized_String;   
+            }
+            Public Function UnSerialize($String)
+            {
+                If(IsSet($String));
+                If(Is_String($String));
+                {
+                    $Function->Data = UnSerialize($String);
+                }
+                $Function->Result   =   TRUE;
+                
+                Return $Function;
+            }
+        }
+    }
+  
+?>

@@ -1,0 +1,10 @@
+<?PHP
+    NameSpace System\Library\DataSource
+    {
+        Interface __Interface
+        {
+            Public Function Retrieve($Object,$Connection);
+
+        }
+    }
+?>

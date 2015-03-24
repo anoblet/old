@@ -1,0 +1,49 @@
+<?PHP
+    NameSpace System\Module\Session
+    {
+        Class __API
+        {
+            Public Static $Session_ID;
+            Public Function __Construct()
+            {
+                $this->Initialize();
+            }
+            Public Function Initialize()
+            {
+                $this->Diagnostics[]  =   "Initializing Session";
+                Try
+                {
+                        $this->Diagnostics['Session_Start'] =   \System\Library\Session\__Functions::Start_Session();
+                        $this->Diagnostics['Session_ID']    =   self::$Session_ID = \System\Library\Session\__Functions::Get_Session_ID();
+                }
+                Catch(\Exception $Exception)
+                {     
+                }
+                $this->Diagnostics[]  =   "Session Initialized Succesfully";
+                Return;
+            }
+            Public Function Set_Parameter($Key,$Value)
+            {
+                $_SESSION[$Key] = $Value;
+                Return;
+            }
+            Public Function Increment_Parameter($Parameter)
+            {
+                $_SESSION[$Parameter]++;
+            }
+            Public Function Append_To_Parameter($Parameter,$Value)
+            {
+                // Count the current number of objects
+                $Current_Count = Count($Value);
+                $Pointer = $Current_Count;
+                // Error Checking
+                ForEach($Value as $Key => $Value)
+                {
+                    $_SESSION[$Parameter][$Pointer][$Key] = $Value;
+                }
+                Return;
+            }
+        }
+    }
+  
+?>

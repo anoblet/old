@@ -1,0 +1,132 @@
+<?PHP
+NameSpace System
+{
+    // Register the AutoLoading class
+    spl_autoload_register('System\AutoLoad');
+    /**
+    * @Internal
+    * Place into it's own namespace
+    */
+    Function AutoLoad($String)
+    {
+        /**
+        * @todo
+        * Library Loader Class Should be within a isolated namespace
+        * * Switch Controller name
+        */
+        Try
+        {
+            $Library   =   New \System\Library;
+            $Library->Load_File($String);
+        }
+        Catch (\Exception $Exception)
+        {
+            Throw $Exception;
+        }
+        Return;      
+    }
+  
+    Class __Initialization
+    {
+        Public Static $Environment;
+        Public Static $Diagnostics;
+        Public Static $Session;
+            Protected Static $Security;
+        Public Static $Controller;
+        Public Static $User_Interface;
+        
+        Public Function __Construct()
+        {
+            Return $this->Initialize();
+        }
+        
+        Public Function Initialize()
+        {
+            $this->Debug[]         = "SYSTEM Initializing...";
+            Try                                                    
+            {
+                $this->Environment  =   self::$Environment      =   New \System\Module\Environment\__API;
+                $this->Diagnostics  =   self::$Diagnostics      =   New \System\Diagnostics\__API;
+                $this->Session      =   self::$Session          =   New \System\Module\Session\__API;  
+                /**
+                * @Internal
+                * Should security be a library?  Authentication being a method of the controller?
+                */
+                $this->Security     =   self::$Security         =   New \System\Security\__API;
+                //
+                /**
+                * @Internal
+                * What is User_Interface is defined.  ALso is the same as a command!!!!
+                * Injected into the controller
+                */
+                If(IsSet($_REQUEST['User_Interface']))
+                {
+                    \System\User_Interface\API::$Template   =   $_REQUEST['User_Interface'];
+                    Print "YoYOYo";    
+                }
+                $this->Controller   =   self::$Controller       =   New \System\Module\Controller\__API;
+                
+                $this->User_Interface = self::$User_Interface   =   New \System\User_Interface\API;
+                
+            }
+            Catch(\Exception $Exception)
+            {
+               $this->Debug[] =   "There has been an error in the initialization";
+               Throw $Exception;
+            }
+            Return;
+        }  
+    }
+    Class Library
+    {    
+        Public $File_Path;
+        Function __Construct()
+        {
+            Return;
+        }
+        Public Function Load_File($String)
+        {
+            $this->String    =   $String;
+            $this->File_Path = BASE_DIRECTORY . "/" . $this->Convert_String_Directory($String) . ".php";
+            Try
+            {
+                // Check if file is there.
+                If(Is_File($this->File_Path))
+                {
+                    Include_Once($this->File_Path);
+                    // Check if the Class or Interface exists.  
+                        If
+                        (
+                            Class_Exists($String)
+                            ||
+                            Interface_Exists($String)
+                        );
+                        Else
+                        {
+                            Throw New \Exception("Class Does Not Exist.");                        
+                        }
+                }
+                Else
+                {
+                     Throw New \Exception("File does not exist.");
+                }
+            }
+            Catch(\Exception $Exception)
+            {   
+                Throw $Exception;
+            }
+            Return;  
+        }
+        /**
+        * @Internal
+        * Should be encapsulated within a NameSpace
+        */
+        Public Function Convert_String_Directory($Class)
+        {
+            $Directory = str_replace("\\",DIRECTORY_SEPARATOR,$Class);
+            Return $Directory;
+        }   
+    }
+}                               
+    
+?>

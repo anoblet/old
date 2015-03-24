@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Configuration>
+	<Application>
+		<Name>TheFreeIntellectual</Name>
+	</Application>
+	<Datasource>
+		<Type>Database</Type>
+		<Database>
+			<Type>MySQL</Type>
+			<MySQL>
+				<Host>localhost</Host>
+				<User>raheimsg_dbuser</User>
+				<Password>CheGuevara11</Password>
+				<Database>raheimsg_SYSTEM</Database>
+			</MySQL>
+		</Database>
+	</Datasource>
+	<Timezone>America/New_York</Timezone>
+	<Callback>Output</Callback>
+</Configuration>

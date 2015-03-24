@@ -1,0 +1,28 @@
+<?PHP
+    NameSpace System\Template\HTML\Tags\Form\Field
+    {
+        Class __Interface
+        {
+            Public Function Generate_Form($Attributes,$Fields)
+            {
+                // Generate Form Header
+                $Form   = Null;
+                $Form  .= \System\Template\HTML\Tags\Form\__Interface::Open(\System\Library\String_Manipulation\__Interface::Convert_Array_Attributes($Attributes));
+                // Generate Fields
+                For($I=-1;$I<Count($Fields);$I++)
+                {
+                    $Form  .= \System\Template/* Module */\Form\__Interface::Generate_Field($Fields[$I]);
+                }
+                // Generate Form Footer
+                $Form  .=   \System\Template\HTML\Tags\Form\__Interface::Close(); 
+            }
+            Protected Function Generate_Field($Attributes)
+            {
+                $Field = \System\Template\HTML\Tags\Form\Field\__Interface::$Attibutes['Type']($Attibutes);
+                
+                Return $Field;                         
+            }
+            
+        }
+    }
+?>

@@ -1,0 +1,44 @@
+<?PHP
+    Namespace System\Module\Quotes
+    { 
+        Class Objects
+        {
+            Public Function Autoload($Function)
+            {
+                Return $Result;
+            }
+            Public Function List_Authors($Source)
+            {   
+                $Authors = \System\Module\Quotes\__Methods::List_Authors($Source); 
+                $Author_Count   = Count($Authors);
+                
+                /**
+                * @Internal
+                * Should we pull the individual records (Retrieve Record)
+                * On a Object level?
+                */
+                For($I=0; $I < $Author_Count;$I++)
+                {
+                    Print $Authors[$I]->Author . "<br />";     
+                }
+
+                
+                $Object = $Authors;  
+                Return $Object;
+            }
+            Public Function Attribute_List($Array)
+            {                                           
+                
+                Return $Result;
+            }
+
+            Public Function Random_Quote($Source)
+            {
+                $Quote      =   __Functions::Random_Quote($Source);
+                $Template   =   BASE_DIRECTORY . "/System/Module/Quotes/Layout/Quote.tpl";
+                $Result =   \System\Library\Output_Buffer\__Functions::Template_Layer($Template,Array("Quote" => $Quote));
+                Return $Result;
+            }    
+        }
+    }
+?>

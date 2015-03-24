@@ -1,0 +1,26 @@
+<?php
+
+		echo $this->accordionContainer
+	(
+    	'Center',
+		"<div class='Sortable'>".
+		$this->accordionPane
+		(
+	    	'Submit_a_Quotation',
+	    	NULL,
+			array
+			(
+	        	'title' => 'Submit a Quotation',
+				'href' => '../../../../Quotes/Submit/Generate_Form?Type=Sub_User_Interface'
+			)
+		)
+		.
+		"</div>"
+        ,
+        array
+        (
+			'region' => 'center',
+			'duration' => 0,
+        )
+	);
+?>

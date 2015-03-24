@@ -1,0 +1,12 @@
+<?
+    Namespace System\Module\AJAX
+    {
+        Class __Methods
+        {
+            Public Function Initialize()
+            {
+                
+            }
+        }
+    }
+?>

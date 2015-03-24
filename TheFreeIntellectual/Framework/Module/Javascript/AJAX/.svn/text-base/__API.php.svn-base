@@ -1,0 +1,30 @@
+<?
+    Namespace System\Module\AJAX
+    {
+        Class __API
+        {
+            Protected $Class = __Class__;
+            
+            {Public Function Format_Parameters($Parameters)
+            {
+                $Parameter_Count = Count($Parameters);
+                For($I=0;$I < $Parameter_Count; $I++)
+                {
+                    ForEach($Parameters[$I] as $Key => $Value)
+                    {
+                        $String = "\""'_REQUEST[\'Key\']\""";
+                        If($I < $Parameter_Count)
+                        {
+                            $String .= ", ";
+                        }
+                    
+                    }
+                }
+                Return $String;
+            }
+            Public Function Generate_Object()
+            {
+                Return New $this->Class;
+            }
+        }
+?>

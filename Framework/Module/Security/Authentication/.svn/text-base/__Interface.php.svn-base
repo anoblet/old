@@ -1,0 +1,10 @@
+<?PHP
+    NameSpace System\Security\Authentication
+    {
+        Interface __Interface
+        {
+            Public Function Authenticate($Username, $Password);
+        }
+    }
+  
+?>

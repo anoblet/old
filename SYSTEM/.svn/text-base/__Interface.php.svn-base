@@ -1,0 +1,14 @@
+<?PHP
+    NameSpace System
+    {
+        Class __Interface
+        {
+            Public Function Call_Function($Function)
+            {
+                // Check Authentication Level to the Function
+                \System\Security\Authentication\__Interface::Audit_Authentication_Level($Function,$User);                 
+            }            
+        }
+    }
+  
+?>

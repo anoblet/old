@@ -1,0 +1,38 @@
+<?PHP
+    Namespace System\Module\Quotes
+    {
+        Class __Functions
+        {
+            Public Function Random_Quote($Source)
+            {
+                $Result =   NULL;
+                $Diagnostics    =   NULL;
+                // Connect to the Datasource
+                        // Database Configuration
+                        $Datasource =   \System\Module\Datasource\__API::Generate_Object('Database\MySQL');
+                        $Datasource_Configuration =   \System\Library\XML\__Interface::Convert_to_Object($Source);                                                                         
+                        $Datasource->Connection =   $Datasource->Generate_Connection($Datasource_Configuration);
+                        $Parameters->Database    =   "SYSTEM";
+                        $Parameters->Table      =   "Quotes";
+                        $Parameters->Fields     =   Array("*");
+                        $Parameters->Order_By   =   "RAND()";
+                        $Parameters->Limit       =   1;
+                        // Database COnfiguration
+
+                        $SubRoutine =   $Datasource::Retrieve($Datasource->Connection,$Parameters);
+                        If($SubRoutine->Result)
+                        {
+                            $Resource = $SubRoutine->Data;
+                        }
+                        $SubRoutine =   $Datasource->Retrieve_Record($Resource,$Row);
+                        If($SubRoutine->Result)
+                        {
+                            $Result = $SubRoutine->Data;
+                        }
+
+                // Throw To lOayout
+                Return $Result;
+            }
+        }
+    }
+?>

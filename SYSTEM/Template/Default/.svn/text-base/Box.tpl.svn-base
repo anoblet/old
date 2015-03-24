@@ -1,0 +1,3 @@
+<DIV ID="<?PHP=$Object->ID?>" Class="Box">
+  <?PHP=$Object->Content?>
+</DIV>

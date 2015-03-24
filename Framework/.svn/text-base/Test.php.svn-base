@@ -1,0 +1,10 @@
+<?
+                $Object->Author =   "channel/item/title";
+                $Object->Quote  =   "channel/item/description";
+                $Object->Link   =   "chaneel/item/link";   
+                
+   $result=      serialize($Object);
+   Print $result;
+   $unresult    = unserialize($result);
+  
+?>

@@ -1,0 +1,42 @@
+<?PHP
+    Namespace System\Library\XML
+    {
+        Class __Interface
+        {
+            Public Function Convert_to_Object($XML_File)
+            {
+                /**
+                * @Internal
+                * Try Catch Lookp
+                */
+                $Object =    SimpleXML_Load_File($XML_File);
+                Return $Object;
+            }
+        }
+        Class __API
+        {
+            Public Function Open_File()
+            {
+                
+            }
+            Public Function Retrieve_Element_Value_XPath($XML_Object,$Path)
+            {
+                $Array  =   $XML_Object->XPath($Path);
+                $Array_Count = Count($Array);
+
+                For($I=0;$I<$Array_Count;$I++)
+                {
+
+                    $String =   $Array[$I];
+                }
+
+                Return $String;
+            }
+            
+        }
+        Class __Functions
+        {
+            
+        }
+    }
+?>

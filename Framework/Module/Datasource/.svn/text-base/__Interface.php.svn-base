@@ -1,0 +1,9 @@
+<?PHP
+    Namespace System\Module\Datasource
+    {
+        Interface __Interface
+        {
+            Public Function Generate_Object();
+        }    
+    }
+?>

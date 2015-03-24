@@ -1,0 +1,46 @@
+<?
+    NameSpace System\Security
+    {
+        Class __Interface
+        {
+            Public Function Generate_Object()
+            {
+                $Class = __CLASS__;
+                $Object =   New $Class;
+                Return $Object;
+            }
+            Public Function Initialize()
+            {      
+                Try
+                { 
+                    // Authentication
+                    $Object->Debug[]    =   "Initializing the Authentication";
+                    $Authentication = \System\Security\Authentication\__Main::Initialize();                                                      
+                }
+                Catch(\Exception $Exception)
+                {
+                    $Object =   $Exception;
+                    Throw $Object;
+                }
+                // Config - Anonymous
+                // $Security[] = \System\Security\Authentication\__Interface::Login('Anonymous','');               
+                // Check Login Status
+                Return $Object;
+            }
+        Public Function __Instantiate()   
+        {
+            $Class = __CLASS__;
+            
+            Return New $Class;
+        }
+        }
+        Class Filters
+        {
+            Public Function Multiple_IP()
+            {
+                   
+            } 
+        }
+    }
+  
+?>

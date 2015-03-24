@@ -1,0 +1,22 @@
+<?PHP
+    Namespace System\Module\Quotes
+    { 
+        Class Datasource
+        {
+            Public Function Create_XML_Connection($Datasource)
+            {
+                $Connection =   NULL;
+                // Dynamic Iteration;
+                
+                Switch($Datasource->Type)
+                {
+                    Case 'MySQL':
+                    {                        
+                        $Connection =   \System\Module\Datasource\MySQL\Create_Connection($Connection_Details);
+                    }
+                }   
+            Return $Connection;
+            }   
+        }
+    }
+?>

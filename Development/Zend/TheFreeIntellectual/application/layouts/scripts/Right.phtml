@@ -1,0 +1,48 @@
+<?php
+/*
+	echo $this->contentPane(
+    	'Right',
+    	'Right',
+			array
+			(
+				'region' => 'right',
+				'splitter' => 'true',
+				'style' => 'width:20%')
+			);*/
+
+	echo $this->accordionContainer
+	(
+    	'Right',
+		"<div class='Sortable'>".
+		$this->accordionPane
+		(
+	    	'Authors',
+	    	NULL,
+			array
+			(
+	        	'title' => 'By Author',
+				'href' => '../../../../Quotes/Objects/Author_List/Generate?Type=Sub_User_Interface',
+			)
+		)
+		.
+		$this->accordionPane
+		(
+	    	'Time Period',
+	    	"1970-1980",
+			array
+			(
+	        	'title' => 'By Time Period',
+			)
+		)
+		.
+		"</div>"
+        ,
+        array
+        (
+			'region' => 'right',
+			'duration' => 0,
+        	'style'	=> 'width:20%;'
+        )
+	);
+?>
+

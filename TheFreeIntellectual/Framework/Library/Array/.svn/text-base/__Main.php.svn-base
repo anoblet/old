@@ -1,0 +1,14 @@
+<?PHP
+    NameSpace System\Library\__Array
+    {
+        Class __Main
+        {
+            Public Function __Count($Array)
+            {
+                $Result = Count($Array);
+                Return $Result;
+            }
+        }
+    }
+  
+?>

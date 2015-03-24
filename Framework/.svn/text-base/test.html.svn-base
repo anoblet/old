@@ -1,0 +1,53 @@
+<HTML>
+<Style>
+HTML
+{
+}
+BODY
+{
+    Margin:  0px;
+    Padding: 0px;
+}
+.Columns
+{
+    Display: Inline-Block;        
+}
+.Columns .Left
+{
+    Float: Left;
+    Left: 0px;
+    Width:    25%;
+    Display: Inline;
+}
+.Columns .Center
+{
+
+    Display: inline;
+}
+.Columns .Right
+{
+    Width:    25%;
+    Right: 0px;
+    Float:    Right;
+    Display: Inline;
+}
+.Columns .Clear
+{
+    Float: Clear;
+}
+</Style>
+<BODY>
+
+<DIV Class="Columns">
+    <DIV Class="Left">
+    Left
+    </DIV>
+    <DIV Class="Center">
+    Center
+    </DIV>
+    <DIV CLass="Right">
+    Right
+    </DIV>
+</DIV>
+</BODY>
+</HTML>

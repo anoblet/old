@@ -1,0 +1,35 @@
+<HEAD>
+<?=$this->Javascript;?>
+</HEAD>
+<Body>
+<MenuBar>Menu Bar</Menubar>
+<DIV Class="Box">
+    <DIV Class="Header">
+        <DIV CLass="Box">
+            HEADER
+        </DIV>
+    </DIV>
+    <DIV Class="Logout"><Logout><Input Type="Button" OnClick="<?PHP Echo \System\Module\Authentication\User_Interface\Forms\Logout\Logout::Generate_Javascript();?>" Value="Logout" /></Logout></DIV> 
+    <DIV><?PHP Echo \System\Module\Quotes\Objects::Random_Quote('System/Module/Quotes/Repositories/localhost.localdomain.xml');?></DIV>  
+    <DIV Class="Box"> 
+            <DIV Class="Columns">
+                <DIV Class="Left">
+                    <DIV Class="Box">
+                        <?PHP Echo \System\Module\Quotes\User_Interface\Objects\Author_List::Generate('System/Module/Quotes/Repositories/localhost.localdomain.xml');?>
+                    </DIV>
+                </DIV>
+                <DIV Class="Center">
+                    Center
+                </DIV>
+                <DIV CLass="Right">
+                    Right
+                </DIV>
+                <DIV Class="Clear" ></DIV>
+            </DIV>
+    </DIV>
+    <DIV Class="Footer">
+        <DIV CLass="Box">
+            FOOTER
+        </DIV>
+    </DIV>
+</DIV>

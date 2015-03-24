@@ -1,0 +1,33 @@
+<?php
+/*	echo $this->contentPane(
+ 'Left',*/
+	echo $this->accordionContainer
+	(
+    	'Left',
+		"<div class='Sortable'>".
+		$this->accordionPane
+		(
+	    	'Navigation',
+	    	$this->render("Navigation.phtml"),
+			array
+			(
+	        	'title' => 'Navigation',
+				/*'href' => '../../../../Quotes/Objects/Author_List/Generate?Type=Sub_User_Interface',*/
+				'style'=>'width: 20%;height: 50%;'
+			)
+		)
+		."</div>"
+        ,
+        array
+        (
+			'region'=>'left',
+			'duration' => 0,
+			'style'=>'width: 20%;'
+        )
+	);/* ,
+        array
+        (
+        'region' => 'left',
+        'splitter' => 'true',
+        'style' => 'width:20%;')
+        );*/

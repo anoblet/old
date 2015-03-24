@@ -1,0 +1,293 @@
+<?PHP
+    NameSpace System\Module\Datasource\Database\MySQL
+    {
+
+        Class __API Implements \System\Module\Datasource\__Interface
+        {
+
+            Public $Connection;
+            Protected $Result;
+            
+            Public Function Generate_Object()
+            {
+                $Object =   \System\Module\Datasource\Database\MySQL\__API::Instantiate();
+                Return $Object;   
+            }
+            
+            Public Function Generate_Connection($Connection_Object)
+            {                              
+                // Set Variables    
+                $Host       =   $Connection_Object->Host;
+                $Username   =   $Connection_Object->Authentication->User;
+                $Password   =   $Connection_Object->Authentication->Password;
+                // Perform the connection
+                Try
+                {
+                    If($Connection = \System\Library\Datasource\Database\MySQL\__Functions::Connect($Host,$Username,$Password))
+                    {
+                        $Result =   $Connection;    
+                    }
+                    Else
+                    {
+                        // There was an error in the Connection
+                        Throw New \Exception("Unable to generate a connection: {$Result}");
+                    }
+                }
+                // Capture the error
+                Catch (\Exception $Exception)
+                {
+                    $Result = $Exception;
+                }
+                Return $Connection;
+            }
+            /**
+            * Create
+            *   Array
+            *   Object
+            */
+            Public Function Create($Connection,$Parameters,\stdClass $Object)
+            {     
+                // Make sure the data is an array
+                //$Object->Created_Date   =   \System\Library\Date\__Functions::Retrieve_Time_Stamp();     
+                $Object     =   \System\Library\Conversion\__Functions::Object_To_Array($Object);  
+
+                $Database   =   $Parameters->Database;
+                $Table = $Parameters->Table;
+  
+                $Field_Count   = Count($Object);
+                
+                For($I=0; $I < $Field_Count;)
+                {          
+                    ForEach($Object as $Key => $Value)
+                    {
+                      $Field_Array[] =  \System\Library\Security\__Interface::Clean_Data($Key);
+                      $Value_Array[] =  \System\Library\Security\__Interface::Clean_Data($Value);
+                      $I++;  
+                    }
+                        
+                }
+                // Format fields into a string 
+                
+                $Fields     =   \System\Module\Datasource\Database\MySQL\__Format::Field($Field_Array);
+                $Values     =   \System\Module\Datasource\Database\MySQL\__Format::Value($Value_Array);     
+                
+                // Generate Query
+                // Generate The Query                   
+                $Query   =  Null;
+                $Query   =  "INSERT INTO `{$Database}`.`{$Table}` ({$Fields}) VALUES($Values);";
+                Try
+                {
+                
+                    If($Results[] = \System\Library\DataSource\Database\MySQL\__Functions::Select_Database($Database,$Connection));
+                    Else
+                    {
+                        $Error = \System\Module\Datasource\Database\MySQL\__API::Create_Error_Object(mysql_error());
+                        Throw New \Exception("Unable to select database: {$Error}"); 
+                    }
+                    If($Resource  =   \System\Library\DataSource\Database\MySQL\__Functions::Query($Connection,$Query))
+                    {
+                        $Result->ID;
+                    }
+                    Else
+                    {
+                        $Error = \System\Module\Datasource\Database\MySQL\__API::Create_Error_Object(mysql_error());    
+                        Throw New \Exception("Unable to Query: {$Error}");
+                    }
+                }
+                Catch(\Exception $Exception)
+                {
+                    $Result = $Exception;
+                }   
+                Return $Result;
+            }
+            
+            Public Function Retrieve($Connection, $Parameters)
+            {                               
+                // Accepted Objects
+                // Table, Fields,Where,Limit
+                // Generate The Query
+                
+                $Database   =   $Parameters->Database;
+                $Table = $Parameters->Table;
+                // Format fields into a string
+                $Fields     =   \System\Module\Datasource\Database\MySQL\__Format::Field($Parameters->Fields);
+                If(IsSet($Parameters->Distinct))
+                {
+                    $Distinct = "Distinct {$Parameters->Distinct},";
+                }
+                Else
+                {
+                    $Distinct = NULL;
+                }
+                If($Parameters->Filters == NULL);
+                Else
+                {
+                    $Filter_String     =   \System\Module\Datasource\Database\MySQL\__Format::Filters($Parameters->Filters);   
+                    $Filters    =   "WHERE {$Filter_String}"; 
+                }
+                If(IsSet($Parameters->Limit))
+                {
+                    $Limit = "LIMIT {$Parameters->Limit}";
+                }
+                If(IsSet($Parameters->Order_By))
+                {
+                    $Order = "ORDER BY {$Parameters->Order_By}";
+                }
+                /**
+                * @Internal
+                * MySQL LIbrary should be transported to Module.
+                */
+                // Generate Query
+                $Query   =  Null;
+                $Query   =  "SELECT {$Distinct} {$Fields} FROM `{$Database}`.`{$Table}` {$Filters} {$Order} {$Limit}";
+                Try
+                {
+                
+                    If($Object->Result = \System\Library\DataSource\Database\MySQL\__Functions::Select_Database($Database)->Result);
+                    Else
+                    { 
+                        $Error = \System\Module\Datasource\Database\MySQL\__API::Generate_Error_Object(mysql_error())->Result;
+                        Throw New \Exception("Unable to select database: {$Error}"); 
+                    }       
+                    If($Object->Data  =   \System\Library\DataSource\Database\MySQL\__Functions::Query($Connection,$Query));
+                    Else
+                    {
+                        $Error = \System\Module\Datasource\Database\MySQL\__API::Generate_Error_Object(mysql_error());
+                        $this->Error    =   $Error;
+                        Throw New \Exception("Unable to Query: {$Error}");
+                    }
+                    $SubRoutine =\System\Library\DataSource\Database\MySQL\__Functions::Number_Of_Records($Object->Data);   
+                    If($SubRoutine->Result  =   TRUE)
+                    {
+                        $Object->Record_Count   =   $SubRoutine->Data;
+                    }
+                    Else
+                    {
+                        Throw New \Exception ($SubRoutine->Exception);
+                    }
+                    If($Object->Record_Count > 0)
+                    {
+                        $Object->Result =   TRUE;
+                    }
+                    Else
+                    {
+                        Throw New \Exception ("No records found.");
+                    }
+                }
+                Catch(\Exception $Exception)
+                {
+                    $Object->Result = FALSE;
+                    $Object->Exception  =   $Exception;
+                }   
+                Return $Object;
+            }
+            /**
+            * @todo
+            * Deprecated?
+            */
+            Public Function Retrieve_Single($Connection, $Parameters)
+            {                               
+                // Accepted Objects
+                // Table, Fields,Where,Limit
+                // Generate The Query
+                
+                $Database   =   $Parameters->Database;
+                $Table = $Parameters->Table;
+                // Format fields into a string
+                $Fields     =   \System\Module\Datasource\Database\MySQL\__Format::Field($Parameters->Fields);
+                If(IsSet($Parameters->Distinct))
+                {
+                    $Distinct = "Distinct {$Parameters->Distinct},";
+                }
+                Else
+                {
+                    $Distinct = NULL;
+                }
+                If($Parameters->Filters == NULL);
+                Else
+                {
+                    $Filter_String     =   \System\Module\Datasource\Database\MySQL\__Format::Filters($Parameters->Filters);   
+                    $Filters    =   "WHERE {$Filter_String}"; 
+                }
+                If(IsSet($Parameters->Limit))
+                {
+                    $Limit = "LIMIT {$Parameters->Limit}";
+                }
+                If(IsSet($Parameters->Order_By))
+                {
+                    $Order = "ORDER BY {$Parameters->Order_By}";
+                }
+                /**
+                * @Internal
+                * MySQL LIbrary should be transported to Module.
+                */
+                // Generate Query
+                $Query   =  Null;
+                $Query   =  "SELECT {$Distinct} {$Fields} FROM `{$Database}`.`{$Table}` {$Filters} {$Order} {$Limit}";
+                Try
+                {
+                
+                    If($Object->Result = \System\Library\DataSource\Database\MySQL\__Functions::Select_Database($Database)->Result);
+                    Else
+                    { 
+                        $Error = \System\Module\Datasource\Database\MySQL\__API::Generate_Error_Object(mysql_error())->Result;
+                        Throw New \Exception("Unable to select database: {$Error}"); 
+                    }       
+                    If($this->Resource  =   \System\Library\DataSource\Database\MySQL\__Functions::Query($Connection,$Query));
+                    Else
+                    {
+                        $Error = \System\Module\Datasource\Database\MySQL\__API::Generate_Error_Object(mysql_error());
+                        $this->Error    =   $Error;
+                        Throw New \Exception("Unable to Query: {$Error}");
+                    }
+                    $SubRoutine =\System\Library\DataSource\Database\MySQL\__Functions::Number_Of_Records($this->Resource);   
+                    If($SubRoutine->Result  =   TRUE)
+                    {
+                        $Object->Record_Count   =   $SubRoutine->Data;
+                    }
+                    Else
+                    {
+                        Throw New \Exception ($SubRoutine->Exception);
+                    }
+                    If($Object->Record_Count > 0)
+                    {
+                        $this->Record =   \System\Library\Datasource\Database\MySQL\__Functions::Create_Object($this->Resource);
+                    }
+                    Else
+                    {
+                        Throw New \Exception ("No records found.");
+                    }
+                }
+                Catch(\Exception $Exception)
+                {
+                    $Object->Result = FALSE;
+                    $Object->Exception  =   $Exception;
+                }   
+                Return $this->Record;
+            }
+            Public Function Retrieve_Record($Resource,$Row)
+            {
+                $Record->Resource   =   \System\Library\Datasource\Database\MySQL\__Functions::Data_Seek($Resource,$Row);
+                $Record->Data   =   \System\Library\Datasource\Database\MySQL\__Functions::Create_Object($Resource);
+                $Object =   $Record;
+                $Object->Result =   TRUE;
+
+                Return $Object; 
+            }
+            Public Function Modify()
+            {
+                
+            }
+            Public Function Delete()
+            {
+                
+            }
+
+            Public Function Generate_Error_Object($Error)
+            {
+                $Object->Result =   $Error;
+                Return $Object;
+            }
+        }
+    }
+?>
